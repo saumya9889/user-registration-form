@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './style.css'; // Import the CSS file
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate} from 'react-router-dom'; 
 
-export const SignUpForm = () => {
+export const LogInForm = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   });
+
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,24 +18,31 @@ export const SignUpForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8081/signup", formData)
-      .then(res => {
+    axios
+      .post("http://localhost:8081/signup", formData)
+      .then((res) => {
         console.log(res);
         setFormData({
-          name: '',
-          email: '',
-          password: '',
+          name: "",
+          email: "",
+          password: "",
         });
-        alert("Account created successfully");
-      }).catch((err) => console.log(err));  
+        alert("Login successfully");
+      })
+      .catch((err) => console.log(err));
   };
+
+  const navigateToSignup = () => {
+    navigate("/signup"); // Navigate to signup page
+  };
+
   return (
     <div className="container">
-      <div className="form-container">
-         <h2>Create an account</h2>
+      <div className="form-container bg-red-700">
+        <h2>Sign In</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Full Name:</label>
+            <label htmlFor="name" className=" !text-green-950">Full Name:</label>
             <input
               type="text"
               id="name"
@@ -65,7 +74,21 @@ export const SignUpForm = () => {
               required
             />
           </div>
-          <button type="submit">Sign Up</button>
+          <div>
+            <button type="submit">Sign In</button>
+          </div>
+          <div className="w-full text-center font-bold"
+           style={{
+              backgroundImage:
+                "linear-gradient(135deg, #007991 30%, #78ffd6 90%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >Or</div>
+          <div>
+            <button type="button"
+             onClick={navigateToSignup}>Create New Account</button>
+          </div>
         </form>
       </div>
     </div>
